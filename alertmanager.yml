@@ -1,7 +1,14 @@
-- name: Update CMDB table
-  hosts: "{{ vm_name | default('all') }}"
-  gather_facts: false
-  connection: local
-
-  roles:
-    - servicenow_cmdb
+---
+- name: Automatic Remediation from Alert Manager
+  hosts: all
+  sources:
+    - name: listen for alerts
+      ansible.eda.alertmanager:
+        host: 0.0.0.0
+        port: 8000
+  rules:
+    - name: restart web server
+      condition: event.alert.labels.alertname == "ExporterDown" and event.alert.status == "firing"
+      action:
+        run_playbook:
+          name: ansible.eda.aapcontroller

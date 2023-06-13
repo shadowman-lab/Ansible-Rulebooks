@@ -2,13 +2,17 @@
 - name: Automatic Remediation from Alert Manager
   hosts: all
   sources:
-    - name: listen for alerts
+    - name: Listen for alerts from Alert Manager
       ansible.eda.alertmanager:
         host: 0.0.0.0
         port: 8000
   rules:
-    - name: restart web server
+    - name: Prometheus Node Exporter Down
       condition: event.alert.labels.alertname == "ExporterDown" and event.alert.status == "firing"
       action:
-        run_playbook:
-          name: ansible.eda.aapcontroller
+        run_job_template:
+          name: "EDA Automated Response Node Exporter Down"
+          organization: "Infrastructure"
+          job_args:
+            extra_vars:
+              vm_name: "{{ event.alert.labels.instance }}"

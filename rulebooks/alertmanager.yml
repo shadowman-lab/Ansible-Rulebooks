@@ -15,4 +15,4 @@
           organization: "Infrastructure"
           job_args:
             extra_vars:
-              vm_name: "{{ event.alert.labels.instance }}"
+              vm_name: "{{ event.alert.labels.job }}"

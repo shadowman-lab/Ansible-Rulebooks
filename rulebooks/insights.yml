@@ -1,5 +1,5 @@
 ---
-- name: Automatic Remediation from Alerts from Red Hat Insights
+- name: Automatic Remediation on Alerts from Red Hat Insights
   hosts: all
   sources:
     - name: Listen for alerts from Red Hat Insights

@@ -12,8 +12,8 @@
       actions:
         - debug:
         - run_job_template:
-            name: "Insights Malware playbook"
-            organization: Security
+            name: "EDA Automated Response Insights Malware"
+            organization: Infrastructure
             job_args:
               extra_vars:
                 insights_mal_data: "{{ event.payload.events }}"
@@ -23,8 +23,8 @@
       actions:
         - debug:
         - run_job_template:
-            name: "Insights Advisory playbook"
-            organization: Security
+            name: "EDA Automated Response Insights Advisory"
+            organization: Infrastructure
             job_args:
               extra_vars:
                 insights_adv_type: "{{ event.payload.event_type }}"

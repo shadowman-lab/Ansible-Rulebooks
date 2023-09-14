@@ -8,7 +8,7 @@
 
   rules:
     - name: Webhook Event from Mattermost for RHEL Patching
-      condition: event.payload.channel_name  == "town-square" and event.payload.trigger_word == "Patch_RHEL" and event.payload.trigger_word == "Patch_RHEL" and event.payload.token == "{{ mattermost_token }}"  # noqa yaml[line-length]
+      condition: event.payload.channel_name  == "town-square" and event.payload.trigger_word == "Patch_RHEL" and event.payload.token == "{{ mattermost_token }}"  # noqa yaml[line-length]
       action:
         run_job_template:
           name: "Patching RHEL"

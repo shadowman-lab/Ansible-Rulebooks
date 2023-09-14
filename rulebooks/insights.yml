@@ -1,6 +1,7 @@
 ---
 - name: Automatic Remediation on Alerts from Red Hat Insights
   hosts: all
+  execution_strategy: parallel
   sources:
     - name: Listen for alerts from Red Hat Insights
       redhat.insights_eda.insights:

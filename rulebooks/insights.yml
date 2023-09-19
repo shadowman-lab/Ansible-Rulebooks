@@ -6,8 +6,8 @@
     - name: Listen for alerts from Red Hat Insights
       redhat.insights_eda.insights:
         port: 5002
-        certfile: /etc/ansible-automation-platform/eda/server.cert
-        keyfile: /etc/ansible-automation-platform/eda/server.key
+        certfile: /certs/shadowman_cert.cer
+        keyfile: /certs/shadowman_private.key
 
   rules:
     - name: Remediate Malware with Ansible

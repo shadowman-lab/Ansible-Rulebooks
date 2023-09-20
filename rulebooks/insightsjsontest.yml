@@ -11,6 +11,6 @@
 
   rules:
     - name: Test event json
-      condition: event is defined
+      condition: event.payload is defined
       actions:
         - debug:

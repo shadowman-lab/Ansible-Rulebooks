@@ -11,6 +11,6 @@
 
   rules:
     - name: AD Account Change
-      condition: event.body is defined 
+      condition: event.body is defined
       action:
         debug:

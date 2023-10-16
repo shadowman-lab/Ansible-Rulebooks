@@ -1,0 +1,16 @@
+---
+- name: Events from Windows Logs
+
+  hosts: all
+  sources:
+    - name: Kafka listener for Windows logs topic
+      ansible.eda.kafka:
+        host: 192.168.89.155
+        port: 9092
+        topic: windowslogs
+
+  rules:
+    - name: AD Account Change
+      condition: event.body is defined 
+      action:
+        debug:

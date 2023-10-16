@@ -5,7 +5,7 @@
   sources:
     - name: Kafka listener for Windows logs topic
       ansible.eda.kafka:
-        host: 192.168.89.155
+        host: kafka.shadowman.dev
         port: 9092
         topic: windowslogs
 

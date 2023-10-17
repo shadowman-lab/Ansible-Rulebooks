@@ -15,7 +15,13 @@
     - name: A Windows / AD User Account was enabled
       condition: event.body.winlog.event_id == "4722"
       action:
-        debug:
+        run_job_template:
+          name: "Remove Local Windows User"
+          organization: Infrastructure
+          job_args:
+            extra_vars:
+              vm_name: "{{ event.body.winlog.computer_name }}"
+              usertodelete: "{{ event.body.winlog.event_data.TargetUserName }}"
   # https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5025
   # https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4950
   # https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/monitor-the-resource-attributes-on-files-and-folders

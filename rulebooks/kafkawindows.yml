@@ -10,13 +10,16 @@
         topic: windowslogs
 
   rules:
+  # https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/security-auditing-overview
   # https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/audit-user-account-management
     - name: A Windows / AD User Account was enabled
       condition: event.body.winlog.event_id == "4722"
       action:
         debug:
-
+  # https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5025
+  # https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4950
     - name: Firewall disabled
       condition: event.body.winlog.event_id == "4950"
       action:
         debug:
+  # https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/monitor-the-resource-attributes-on-files-and-folders

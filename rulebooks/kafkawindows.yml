@@ -11,7 +11,7 @@
 
   rules:
   # https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/audit-user-account-management
-    - name: A User Account was created
+    - name: A Windows / AD User Account was enabled
       condition: event.body.winlog.event_id == "4722"
       action:
         debug:

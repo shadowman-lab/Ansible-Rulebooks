@@ -10,7 +10,13 @@
         topic: windowslogs
 
   rules:
-    - name: AD Account Change
-      condition: event.body is defined
+  # https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/audit-user-account-management
+    - name: A User Account was created
+      condition: event.body.winlog.event_id == "4722"
+      action:
+        debug:
+
+    - name: Firewall disabled
+      condition: event.body.winlog.event_id == "4950"
       action:
         debug:

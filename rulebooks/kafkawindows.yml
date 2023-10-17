@@ -19,7 +19,7 @@
   # https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5025
   # https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4950
     - name: Firewall disabled
-      condition: event.body.winlog.event_id == "4950"
+      condition: event.body.message is search("The Windows Firewall service")
       action:
         debug:
   # https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/monitor-the-resource-attributes-on-files-and-folders

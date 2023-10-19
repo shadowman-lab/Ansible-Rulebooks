@@ -25,3 +25,7 @@
   # https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5025
   # https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4950
   # https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/monitor-the-resource-attributes-on-files-and-folders
+    - name: Print other events
+      condition: event.body is defined
+      action:
+        debug:

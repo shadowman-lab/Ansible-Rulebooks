@@ -11,9 +11,9 @@
     - name: Prometheus Node Exporter Down
       condition: event.alert.labels.alertname == "ExporterDown" and event.alert.status == "firing" and event.alert.labels.job != "tower metrics"
       action:
-        run_job_template:
-          name: "EDA Automated Response Node Exporter Down"
-          organization: "Infrastructure"
+        run_workflow_template:
+          name: "Automated Response Node Exporter Down EDA"
+          organization: "Security"
           job_args:
             extra_vars:
               vm_name: "{{ event.alert.labels.job }}"

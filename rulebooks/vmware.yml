@@ -1,0 +1,13 @@
+---
+- name: Listen for events on a webhook from VMWare
+  hosts: all
+  sources:
+    - ansible.eda.webhook:
+        host: 0.0.0.0
+        port: 5000
+
+  rules:
+    - name: Webhook Event from VMWare
+      condition: event.payload is defined
+      action:
+        debug:

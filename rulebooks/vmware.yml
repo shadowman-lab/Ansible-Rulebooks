@@ -7,7 +7,12 @@
         port: 5000
 
   rules:
-    - name: Webhook Event from VMWare
+    - name: Alert for ESX Host Memory
       condition: event.payload.vmware_alert.alarm == "alarm.HostMemoryUsageAlarm"
+      action:
+        debug:
+
+    - name: Alert for ESX Host CPU
+      condition: event.payload.vmware_alert.alarm == "alarm.HostCPUUsageAlarm"
       action:
         debug:

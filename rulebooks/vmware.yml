@@ -8,6 +8,6 @@
 
   rules:
     - name: Webhook Event from VMWare
-      condition: event.payload is defined
+      condition: event.payload.vmware_alert.alarm == "alarm.HostMemoryUsageAlarm"
       action:
         debug:

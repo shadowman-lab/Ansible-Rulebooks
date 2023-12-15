@@ -10,7 +10,12 @@
     - name: Alert for ESX Host Memory
       condition: event.payload.vmware_alert.alarm == "alarm.HostMemoryUsageAlarm"
       action:
-        debug:
+        run_job_template:
+          name: "Migrate VMWare VM For ESX Memory"
+          organization: "Infrastructure"
+          job_args:
+            extra_vars:
+              overloadedesx: "{{ event.payload.vmware_alert.target }}"
 
     - name: Alert for ESX Host CPU
       condition: event.payload.vmware_alert.alarm == "alarm.HostCPUUsageAlarm"

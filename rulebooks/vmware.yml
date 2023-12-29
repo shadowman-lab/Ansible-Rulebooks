@@ -1,5 +1,5 @@
 ---
-- name: Listen for events on a webhook from VMWare
+- name: Listen for events on a webhook from VMware
   hosts: all
   sources:
     - ansible.eda.webhook:

@@ -8,5 +8,5 @@ $body = "{`"vmware_alert`": {`n `"title`": `"vCenter Alarm`",
 `n `"alarm`": `"$env:VMWARE_ALARM_NAME`",
 `n `"description`": `"$env:VMWARE_ALARM_EVENTDESCRIPTION`"`n }`n}"
 
-$response = Invoke-RestMethod 'http://eda.shadowman.dev:5000/endpoint' -Method 'POST' -Headers $headers -Body $body
+$response = Invoke-RestMethod 'http://eda.shadowman.dev:5001/endpoint' -Method 'POST' -Headers $headers -Body $body
 $response | ConvertTo-Json

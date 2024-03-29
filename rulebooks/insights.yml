@@ -34,8 +34,3 @@
                 insights_adv_data: "{{ event.payload.events }}"
                 insights_adv_host_data: "{{ event.payload.context }}"
                 insights_adv_target_host: "{{ event.payload.context.display_name }}"
-
-    - name: View other Insights messages
-      condition: event.meta is defined
-      actions:
-        - debug:

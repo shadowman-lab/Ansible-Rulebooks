@@ -11,6 +11,6 @@
 
   rules:
     - name: A Down Interface has been detected
-      condition: event.meta is defined
+      condition: event.fields.admin_status == "DOWN"
       action:
         debug:

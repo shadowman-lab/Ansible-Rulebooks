@@ -13,4 +13,6 @@
     - name: A Down Interface has been detected
       condition: event.body.fields.admin_status == "DOWN"
       action:
-        debug:
+        run_job_template:
+          name: "Restore Network Base Config"
+          organization: Networking

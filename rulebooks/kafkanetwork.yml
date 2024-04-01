@@ -15,4 +15,4 @@
       action:
         run_job_template:
           name: "Restore Network Base Config"
-          organization: Networking
+          organization: "Networking"

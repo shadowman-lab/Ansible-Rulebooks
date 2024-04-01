@@ -8,6 +8,7 @@
         host: kafka.shadowman.dev
         port: 9092
         topic: network
+        offset: latest
 
   rules:
     - name: A Down Interface has been detected

@@ -1,0 +1,16 @@
+---
+- name: Events from gNMI
+
+  hosts: all
+  sources:
+    - name: Kafka listener for network topic
+      ansible.eda.kafka:
+        host: kafka.shadowman.dev
+        port: 9092
+        topic: network
+
+  rules:
+    - name: A Down Interface has been detected
+      condition: event.fields.admin_status == "DOWN"
+      action:
+        debug:

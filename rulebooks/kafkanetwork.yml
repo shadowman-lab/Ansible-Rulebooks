@@ -17,6 +17,6 @@
           name: "Network Interface Remediation"
           organization: Networking
           job_args:
-          #   limit: "{{ event.body.tags.source }}"
+            limit: "{{ event.body.tags.source }}"
             extra_vars:
               downinterface: "{{ event.body.tags.name }}"

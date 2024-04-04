@@ -14,7 +14,9 @@
       condition: event.body.fields.admin_status == "DOWN"
       action:
         run_job_template:
-          name: "Restore Network Base Config"
+          name: "Network Interface Remediation"
           organization: Networking
-          # job_args:
+          job_args:
           #   limit: "{{ event.body.tags.source }}"
+            extra_vars:
+              downinterface: "{{ event.body.tags.name }}"

@@ -7,8 +7,8 @@
       ansible.eda.alertmanager:
         host: 0.0.0.0
         port: 8000
-        certfile: /certs/shadowman_cert.cer
-        keyfile: /certs/shadowman_private.key
+        # certfile: /certs/shadowman_cert.cer
+        # keyfile: /certs/shadowman_private.key
         # token: "{{ eda_auth_token }}"
   rules:
     - name: Prometheus Node Exporter Down

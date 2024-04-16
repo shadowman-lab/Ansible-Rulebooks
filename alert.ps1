@@ -1,4 +1,5 @@
 $headers = New-Object "System.Collections.Generic.Dictionary[[String],[String]]"
+$headers.Add("Authorization", "Bearer ENTERTOKENHERE")
 $headers.Add("Content-Type", "application/json")
 
 $body = "{`"vmware_alert`": {`n `"title`": `"vCenter Alarm`",

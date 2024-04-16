@@ -7,6 +7,7 @@
         port: 5001
         certfile: /certs/shadowman_cert.cer
         keyfile: /certs/shadowman_private.key
+        token: "{{ eda_auth_token }}"
 
   rules:
     - name: Output ServiceNow Information

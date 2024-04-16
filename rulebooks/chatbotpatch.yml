@@ -5,17 +5,18 @@
     - ansible.eda.webhook:
         host: 0.0.0.0
         port: 5000
+        token: "{{ mattermost_token }}"
 
   rules:
     - name: Webhook Event from Mattermost for RHEL Patching
-      condition: event.payload.channel_name  == "town-square" and event.payload.trigger_word == "Patch_RHEL" and event.payload.token == "{{ mattermost_token }}"  # noqa yaml[line-length]
+      condition: event.payload.channel_name  == "town-square" and event.payload.trigger_word == "Patch_RHEL"  # noqa yaml[line-length]
       action:
         run_job_template:
           name: "Patching RHEL"
           organization: "Infrastructure"
 
     - name: Webhook Event from Mattermost for Windows Patching
-      condition: event.payload.channel_name  == "town-square" and event.payload.trigger_word == "Patch_Windows" and event.payload.token == "{{ mattermost_token }}"  # noqa yaml[line-length]
+      condition: event.payload.channel_name  == "town-square" and event.payload.trigger_word == "Patch_Windows"  # noqa yaml[line-length]
       action:
         run_job_template:
           name: "Patching Windows"

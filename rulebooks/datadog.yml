@@ -10,7 +10,17 @@
         token: "{{ eda_auth_token }}"
 
   rules:
-    - name: See all datadog alerts
-      condition: event.meta is defined
+    - name: High CPU Usage Detected
+      condition: event.payload.event_title == "[Triggered] CPU Load is high"
+      action:
+        run_workflow_template:
+          name: "Automated Response High CPU EDA"
+          organization: "Infrastructure"
+          job_args:
+            extra_vars:
+              vm_name: "{{ event.payload.hostname }}"
+
+    - name: See all other datadog alerts
+      condition: event.meta is defined and event.payload.event_title != "[Triggered] CPU Load is high"
       action:
         debug:

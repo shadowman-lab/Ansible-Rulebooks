@@ -20,7 +20,17 @@
             extra_vars:
               vm_name: "{{ event.payload.hostname }}"
 
+    - name: Web Application Down Detected
+      condition: event.payload.event_title == "[Triggered] Web Server is Down"
+      action:
+        run_workflow_template:
+          name: "Automated Response Web Server EDA"
+          organization: "Infrastructure"
+          job_args:
+            extra_vars:
+              vm_name: "{{ event.payload.hostname }}"
+
     - name: See all other datadog alerts
-      condition: event.meta is defined and event.payload.event_title != "[Triggered] CPU Load is high"
+      condition: event.meta is defined and event.payload.event_title != "[Triggered] CPU Load is high and event.payload.event_title != "[Triggered] Web Server is Down"
       action:
         debug:

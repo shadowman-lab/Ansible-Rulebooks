@@ -18,4 +18,4 @@
           organization: Application Development
           job_args:
             extra_vars:
-              vm_name: "{{ event.host.hostname }}.ad.shadowman.dev"
+              vm_name: "{{ event.body.host.hostname }}.ad.shadowman.dev"

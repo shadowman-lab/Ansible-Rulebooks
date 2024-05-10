@@ -1,0 +1,23 @@
+---
+- name: Events from Auditbeat
+
+  hosts: all
+  sources:
+    - name: Kafka listener for Auditbeat logs topic
+      ansible.eda.kafka:
+        host: kafka.shadowman.dev
+        port: 9092
+        topic: auditbeat
+
+  rules:
+  # https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/security-auditing-overview
+  # https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/audit-user-account-management
+    - name: The web server was modifie on Windows
+      condition: event.file.path contains "C:\\inetpub\\wwwroot\\"
+      action:
+        run_job_template:
+          name: "EDA Web Application"
+          organization: Application Development
+          job_args:
+            extra_vars:
+              vm_name: "{{ event.host.hostname }}.ad.shadowman.dev"

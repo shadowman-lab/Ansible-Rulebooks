@@ -11,6 +11,11 @@
 
   rules:
     - name: The web server was modifie on Windows
-      condition: event.meta is defined
+      condition: event.body.file.path contains "C:\\inetpub\\wwwroot\\"
       action:
-        debug:
+        run_job_template:
+          name: "EDA Web Application"
+          organization: Application Development
+          job_args:
+            extra_vars:
+              vm_name: "{{ event.host.hostname }}.ad.shadowman.dev"

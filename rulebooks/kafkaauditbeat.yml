@@ -10,7 +10,7 @@
         topic: auditbeat
 
   rules:
-    - name: The web server was modifie on Windows
+    - name: The web server was modified on Windows
       condition: event.body.file.path is match("C:\\inetpub\\wwwroot\\", ignorecase=true) and event.body.error.message is defined
       action:
         run_job_template:

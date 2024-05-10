@@ -11,11 +11,6 @@
 
   rules:
     - name: The web server was modifie on Windows
-      condition: event.body.file.path contains "C:"
+      condition: event.body.file.path is defined
       action:
-        run_job_template:
-          name: "EDA Web Application"
-          organization: Application Development
-          job_args:
-            extra_vars:
-              vm_name: "{{ event.host.hostname }}.ad.shadowman.dev"
+        debug:

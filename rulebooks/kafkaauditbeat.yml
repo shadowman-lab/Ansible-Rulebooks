@@ -16,6 +16,7 @@
           - event.body.file.path is match("C:\\inetpub\\wwwroot\\", ignorecase=true)
           - event.body.error is not defined
       action:
+        debug:
         run_job_template:
           name: "EDA Web Application"
           organization: Application Development

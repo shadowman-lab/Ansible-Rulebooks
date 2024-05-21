@@ -8,6 +8,7 @@
         host: kafka.shadowman.dev
         port: 9092
         topic: windowslogs
+        group_id: ansible-eda-winlogbeat
 
   rules:
   # https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/security-auditing-overview

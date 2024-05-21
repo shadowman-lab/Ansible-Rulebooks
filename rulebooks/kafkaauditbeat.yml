@@ -8,6 +8,7 @@
         host: kafka.shadowman.dev
         port: 9092
         topic: auditbeat
+        group_id: ansible-eda
 
   rules:
     - name: The web server was modified on Windows

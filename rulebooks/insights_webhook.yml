@@ -8,7 +8,6 @@
         port: 5002
         certfile: /certs/shadowman_cert.cer
         keyfile: /certs/shadowman_private.key
-        token: "{{ eda_auth_token }}"
 
   rules:
     - name: Remediate Malware with Ansible

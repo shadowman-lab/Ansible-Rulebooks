@@ -1,0 +1,37 @@
+---
+- name: Automatic Remediation on Alerts from Red Hat Insights
+  hosts: all
+  execution_strategy: parallel
+  sources:
+    - name: Listen for alerts from Red Hat Insights
+      ansible.eda.webhook:
+        port: 5002
+        certfile: /certs/shadowman_cert.cer
+        keyfile: /certs/shadowman_private.key
+        token: "{{ eda_auth_token }}"
+
+  rules:
+    - name: Remediate Malware with Ansible
+      condition: event.payload is defined and event.payload.event_type == 'detected-malware'
+      actions:
+        - debug:
+        - run_job_template:
+            name: "EDA Automated Response Insights Malware"
+            organization: Infrastructure
+            job_args:
+              extra_vars:
+                insights_mal_data: "{{ event.payload.events }}"
+
+    - name: Remediate Red Hat Insights Advisory with Ansible
+      condition: event.payload is defined and event.payload.event_type == 'new-advisory'
+      actions:
+        - debug:
+        - run_job_template:
+            name: "EDA Automated Response Insights Advisory"
+            organization: Infrastructure
+            job_args:
+              extra_vars:
+                insights_adv_type: "{{ event.payload.event_type }}"
+                insights_adv_data: "{{ event.payload.events }}"
+                insights_adv_host_data: "{{ event.payload.context }}"
+                insights_adv_target_host: "{{ event.payload.context.display_name }}"

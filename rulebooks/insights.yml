@@ -5,7 +5,7 @@
   sources:
     - name: Listen for alerts from Red Hat Insights
       redhat.insights_eda.insights:
-        port: 5002
+        port: 4997
         certfile: /certs/shadowman_cert.cer
         keyfile: /certs/shadowman_private.key
         token: "{{ eda_auth_token }}"

@@ -26,3 +26,14 @@
   # https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5025
   # https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4950
   # https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/monitor-the-resource-attributes-on-files-and-folders
+
+    - name: A Firewall Event was detected
+      condition: event.body.message is search ("The Windows Firewall service")
+      action:
+        run_job_template:
+          name: "Firewall Event"
+          organization: Infrastructure
+          job_args:
+            extra_vars:
+              vm_name: "{{ event.body.winlog.computer_name }}"
+              message: "{{ event.body.message }}"

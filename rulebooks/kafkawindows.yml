@@ -37,3 +37,4 @@
             extra_vars:
               vm_name: "{{ event.body.winlog.computer_name }}"
               message: "{{ event.body.message }}"
+              event_id: "{{ event.body.winlog.event_id }}"

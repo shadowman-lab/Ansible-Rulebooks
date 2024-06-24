@@ -10,7 +10,7 @@
         keyfile: /certs/shadowman_private.key
   rules:
     - name: Prometheus Node Exporter Down
-      condition: event.alert.labels.alertname[0].name == "ExporterDown"
+      condition: event.payload.issue.fields.customfield_11612[0].value == "Tenable SecurityCenter"
       action:
         run_workflow_template:
           name: "Automated Response Node Exporter Down EDA"

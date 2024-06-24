@@ -1,20 +1,20 @@
 ---
-- name: Rulebook Bracket test
+- name: Listen for events on a webhook
   hosts: all
+
   sources:
-    - name: Listen for alerts from Webhook
-      ansible.eda.webhook:
+    - ansible.eda.webhook:
         host: 0.0.0.0
         port: 4994
-        certfile: /certs/shadowman_cert.cer
-        keyfile: /certs/shadowman_private.key
+
   rules:
-    - name: Prometheus Node Exporter Down
-      condition: event.payload.issue.fields.customfield_11612[0].value == "Tenable SecurityCenter"
-      action:
-        run_workflow_template:
-          name: "Automated Response Node Exporter Down EDA"
-          organization: "Security"
-          job_args:
-            extra_vars:
-              vm_name: "{{ event.alert.labels.job }}"
+    - name: Execute the SecOps EDA test job template
+      condition:
+        all:
+          - event.payload.issue.fields.project.name == "MS - Global SecOps"
+          - event.payload.webhookEvent == "jira:issue_created"
+          - event.payload.issue.fields.issuetype.name == "Internal Security Scan Request"
+          - event.payload.issue.fields.customfield_11612[0].value == "Tenable SecurityCenter"
+          - event.payload.issue.fields.customfield_15123 != "None"
+      actions:
+        - debug:

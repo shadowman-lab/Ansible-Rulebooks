@@ -5,8 +5,6 @@
     - ansible.eda.webhook:
         host: 0.0.0.0
         port: 4997
-        certfile: /certs/shadowman_cert.cer
-        keyfile: /certs/shadowman_private.key
         token: "{{ eda_auth_token }}"
 
   rules:

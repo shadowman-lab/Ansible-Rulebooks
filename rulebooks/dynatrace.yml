@@ -1,0 +1,26 @@
+---
+- name: Listen for events on a webhook from Dynatace
+  hosts: all
+  sources:
+    - ansible.eda.webhook:
+        host: 0.0.0.0
+        port: 4997
+        certfile: /certs/shadowman_cert.cer
+        keyfile: /certs/shadowman_private.key
+        token: "{{ eda_auth_token }}"
+
+  rules:
+    - name: High CPU Usage Detected
+      condition: event.payload.eventData.name == "CPU Saturation"
+      action:
+        run_workflow_template:
+          name: "Automated Response High CPU EDA"
+          organization: "Infrastructure"
+          job_args:
+            extra_vars:
+              vm_name: "{{ event.payload.eventData['host_name'] }}"
+
+    - name: See all other dynatrace alerts
+      condition: event.meta is defined and event.payload.eventData.name != "CPU Saturation"
+      action:
+        debug:

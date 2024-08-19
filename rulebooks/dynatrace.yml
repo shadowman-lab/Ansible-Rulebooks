@@ -2,11 +2,9 @@
 - name: Listen for events on a webhook from Dynatace
   hosts: all
   sources:
-    - ansible.eda.webhook:
+    - dynatrace.event_driven_ansible.dt_webhook:
         host: 0.0.0.0
         port: 4997
-        certfile: /certs/shadowman_cert.cer
-        keyfile: /certs/shadowman_private.key
         token: "{{ eda_auth_token }}"
 
   rules:

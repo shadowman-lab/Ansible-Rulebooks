@@ -11,7 +11,7 @@
 
   rules:
     - name: High CPU Usage Detected
-      condition: event.payload.eventData.name == "CPU Saturation"
+      condition: event.payload.eventData.name == "CPU saturation"
       action:
         run_workflow_template:
           name: "Automated Response High CPU EDA"
@@ -21,6 +21,6 @@
               vm_name: "{{ event.payload.eventData['host_name'] }}"
 
     - name: See all other dynatrace alerts
-      condition: event.meta is defined and event.payload.eventData.name != "CPU Saturation"
+      condition: event.meta is defined and event.payload.eventData.name != "CPU saturation"
       action:
         debug:

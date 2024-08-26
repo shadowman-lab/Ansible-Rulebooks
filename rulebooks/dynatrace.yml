@@ -9,16 +9,11 @@
 
   rules:
     - name: High CPU Usage Detected
-      condition: event.payload.eventData.name == "CPU saturation"
+      condition: event.payload.eventData.problemTitle == "CPU saturation"
       action:
         run_workflow_template:
           name: "Automated Response High CPU EDA"
           organization: "Infrastructure"
           job_args:
             extra_vars:
-              vm_name: "{{ event.payload.eventData['host_name'] }}"
-
-    - name: See all other dynatrace alerts
-      condition: event.meta is defined
-      action:
-        debug:
+              vm_name: "{{ event.payload.eventData.impactedEntitiesId[0].name }}"

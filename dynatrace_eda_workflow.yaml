@@ -1,0 +1,181 @@
+metadata:
+  version: "1"
+  dependencies:
+    apps:
+      - id: dynatrace.automations
+        version: ^1.762.0
+      - id: dynatrace.redhat.ansible
+        version: ^0.3.2
+  inputs:
+    - type: connection
+      schema: app:dynatrace.redhat.ansible:eda-webhook.connection
+      targets:
+        - tasks.send_event_to_event-driven-ansible_1.connectionId
+workflow:
+  title: Shadowman EDA Workflow
+  tasks:
+    merge_problem_data:
+      name: merge_problem_data
+      description: Build a custom task running js Code
+      action: dynatrace.automations:run-javascript
+      input:
+        script: |-
+          import { execution } from '@dynatrace-sdk/automation-utils';
+
+          export default async function ({ execution_id }) {
+            // your code goes here
+            // e.g. get the current execution
+            const ex = await execution(execution_id);
+            console.log('Automated script execution on behalf of', ex.trigger);
+
+            const problems = await ex.result("get_problem_details");
+            console.log(problems);
+
+            const obj1 = problems.eventInfo;
+            console.log(obj1);
+
+            let result  = Object.assign(obj1)
+            console.log(result);
+
+
+            return result;
+          }
+      position:
+        x: 0
+        y: 2
+      predecessors:
+        - get_problem_details
+      conditions:
+        states:
+          get_problem_details: OK
+    get_problem_details:
+      name: get_problem_details
+      description: Build a custom task running js Code
+      action: dynatrace.automations:run-javascript
+      input:
+        script: >-
+          import { executionsClient } from '@dynatrace-sdk/client-automation';
+
+          import { problemsClient } from '@dynatrace-sdk/client-classic-environment-v2';
+
+          import { monitoredEntitiesClient } from '@dynatrace-sdk/client-classic-environment-v2';
+
+          function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms))
+          }
+
+          export default async function ({ execution_id }) {
+
+            var retries = 0
+
+            // get the current execution
+            const ex = await executionsClient.getExecution({ id: execution_id });
+            console.log(`Problem ${ex.params.event['event.id']}.`)
+            if(!'event' in ex.params) { return { problem: null, affected_entities: [] } }
+
+            console.log("Loading Problem details...")
+            var probEvent = ex.params.event
+            var problem_request = {
+              problemId: probEvent['event.id'],
+              fields: 'recentComments'
+            }
+            var problem = await problemsClient.getProblem(problem_request);
+
+            console.log(`Problem ${problem.displayId} affects ${problem.impactedEntities.length} entities.`)
+
+            while (problem.impactedEntities.length == 0 && retries <= 10) {
+              console.log("No affected entities")
+              console.log("Waiting 5 seconds and then checking again")
+              await sleep(5000)
+              problem = await problemsClient.getProblem(problem_request)
+              console.log(`Problem ${problem.displayId} affects ${problem.impactedEntities.length} entities.`)
+              retries += 1
+            }
+
+            if (problem.impactedEntities.length > 0) {
+              //// load affected entities
+              var iE =problem.impactedEntities[0].entityId.id;
+              var entity_selector = `entityId("${iE}")`;
+              var entities_request = {
+                entitySelector: entity_selector,
+                fields: "+tags,+fromRelationships,+toRelationships"
+              }
+              console.log(`Entities ${entities_request}`)
+              var entities = await monitoredEntitiesClient.getEntities(entities_request);
+
+            } else { var entities = [] }
+
+            // Creating distributable information
+
+            var eventInfo = {
+              problemTitle: problem.title,
+              problemStatus: problem.status,
+              problemId: problem.displayId,
+              problemArea: problem.impactLevel,
+              problemLevel: problem.severityLevel,
+              impactedEntitiesId: problem.impactedEntities,
+              eventId: probEvent['event.id']
+            }
+
+            return {
+                    entities,
+                    eventInfo
+            };
+
+          }
+      position:
+        x: 0
+        y: 1
+      predecessors: []
+    send_event_to_event-driven-ansible_1:
+      name: send_event_to_event-driven-ansible_1
+      description: Send an event to the Red Hat Event-Driven-Ansible Controller via
+        Event Source Plugin
+      action: dynatrace.redhat.ansible:send-event-to-eda
+      input:
+        eventData: '{{ result("merge_problem_data") }}'
+        connectionId: ""
+      position:
+        x: 0
+        y: 3
+      predecessors:
+        - merge_problem_data
+      conditions:
+        states:
+          merge_problem_data: OK
+  description: ""
+  trigger:
+    eventTrigger:
+      filterQuery: >-
+        event.kind == "DAVIS_PROBLEM" AND event.status == "ACTIVE" AND
+        (event.status_transition == "CREATED" OR event.status_transition ==
+        "UPDATED" OR event.status_transition == "REOPENED") AND (event.category
+        == "ERROR" OR event.category == "RESOURCE_CONTENTION") AND
+        (maintenance.is_under_maintenance == false and
+
+        event.status_transition =="CREATED"
+
+        AND isNotNull(affected_entity_ids)
+
+        AND matchesPhrase(entity_tags,"shadowman")
+        )
+      isActive: true
+      uniqueExpression: '{{ event()["event.id"] }}-{{ "open" if
+        event()["event.status_transition"] in ("CREATED", "UPDATED", "REOPENED",
+        "REFRESHED") else "resolved" }}-{{
+        event()["dt.davis.last_reopen_timestamp"] }}'
+      triggerConfiguration:
+        type: davis-problem
+        value:
+          categories:
+            error: true
+            resource: true
+          entityTags: {}
+          customFilter: |+
+            maintenance.is_under_maintenance == false and
+            event.status_transition =="CREATED"
+            AND isNotNull(affected_entity_ids)
+            AND matchesPhrase(entity_tags,"shadowman")
+          onProblemClose: false
+          entityTagsMatch: all
+  schemaVersion: 3

@@ -23,12 +23,11 @@
 
     - name: The web server was modified on RHEL
       condition: event.body.file.path is match("/var/www/html/", ignorecase=true)
-      actions:
-        - run_job_template:
-            name: "EDA Web Application"
-            organization: Application Development
-            set_facts: true
-            job_args:
-              extra_vars:
-                vm_name: "{{ event.body.host.hostname }}"
-        - debug:
+      action:
+        run_job_template:
+          name: "EDA Web Application"
+          organization: Application Development
+          set_facts:
+          job_args:
+            extra_vars:
+              vm_name: "{{ event.body.host.hostname }}"

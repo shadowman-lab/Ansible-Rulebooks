@@ -27,7 +27,7 @@
         - run_job_template:
             name: "EDA Web Application"
             organization: Application Development
-            post_facts: true
+            set_facts: true
             job_args:
               extra_vars:
                 vm_name: "{{ event.body.host.hostname }}"

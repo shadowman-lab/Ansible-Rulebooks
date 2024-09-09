@@ -19,7 +19,7 @@
               vm_name: "{{ event.payload.eventData.impactedEntitiesId[0].name }}"
 
     - name: Web Application Down Detected
-      condition: event.payload.eventData.problemTitle == "Minimum process count not met for rule HTTPD Host Monitor"
+      condition: event.payload.eventData.problemTitle == "Minimum process count not met for rule HTTPD Host Monitor" or event.payload.eventData.problemTitle == "Minimum process count not met for rule IIS Host Monitor"
       action:
         run_workflow_template:
           name: "Automated Response Web Server EDA"

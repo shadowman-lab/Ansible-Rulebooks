@@ -1,6 +1,5 @@
 ---
 - name: Events from Windows Logs
-
   hosts: all
   sources:
     - name: Kafka listener for Windows logs topic

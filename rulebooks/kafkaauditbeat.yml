@@ -1,6 +1,5 @@
 ---
 - name: Events from Auditbeat
-
   hosts: all
   sources:
     - name: Kafka listener for Auditbeat logs topic

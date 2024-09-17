@@ -2,7 +2,8 @@
 - name: Listen for events on a webhook from Dynatace
   hosts: all
   sources:
-    - dynatrace.event_driven_ansible.dt_webhook:
+    - name: Listen for alerts from Dynatrace
+      dynatrace.event_driven_ansible.dt_webhook:
         host: 0.0.0.0
         port: 4997
         token: "{{ eda_auth_token }}"

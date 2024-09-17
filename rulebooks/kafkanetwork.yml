@@ -1,6 +1,5 @@
 ---
 - name: Events from gNMI
-
   hosts: all
   sources:
     - name: Kafka listener for network topic

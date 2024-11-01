@@ -6,7 +6,6 @@
       dynatrace.event_driven_ansible.dt_webhook:
         host: 0.0.0.0
         port: 4997
-        token: "{{ eda_auth_token }}"
 
   rules:
     - name: High CPU Usage Detected

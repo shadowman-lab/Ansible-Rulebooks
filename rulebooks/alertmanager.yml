@@ -7,7 +7,6 @@
       ansible.eda.alertmanager:
         host: 0.0.0.0
         port: 8000
-        token: "{{ eda_auth_token }}"
   rules:
     - name: Prometheus Node Exporter Down
       condition: event.alert.labels.alertname == "ExporterDown" and event.alert.status == "firing" and event.alert.labels.job != "tower metrics"

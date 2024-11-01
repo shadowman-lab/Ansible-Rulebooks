@@ -6,8 +6,6 @@
     - name: Listen for alerts from Red Hat Insights
       ansible.eda.webhook:
         port: 5002
-        certfile: /certs/shadowman_cert.cer
-        keyfile: /certs/shadowman_private.key
 
   rules:
     - name: Remediate Malware with Ansible

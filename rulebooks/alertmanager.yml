@@ -16,7 +16,7 @@
           organization: "Security"
           job_args:
             extra_vars:
-              vm_name: "{{ event.alert.labels.job }}"
+              vm_name: "{{ event.payload.alerts[0].labels.job }}"
 
     - name: SELinux Disabled
       condition: event.payload.alerts[0].labels.alertname == "SELinuxDisabled" and event.payload.alerts[0].status == "firing"
@@ -26,4 +26,4 @@
           organization: "Infrastructure"
           job_args:
             extra_vars:
-              vm_name: "{{ event.alert.labels.job }}"
+              vm_name: "{{ event.payload.alerts[0].labels.job }}"

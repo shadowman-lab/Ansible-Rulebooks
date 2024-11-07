@@ -1,0 +1,20 @@
+---
+- name: Automatic Remediation from URL Check
+  hosts: all
+  sources:
+    - name: URL Check
+      ansible.eda.url_check:
+        urls:
+          - https://rhel8.shadowman.dev
+        delay: 10
+
+  rules:
+    - name: Web site is down
+      condition: event.url_check.status == "down"
+      action:
+        run_workflow_template:
+          name: "Automated Response Web Server EDA"
+          organization: "Infrastructure"
+          job_args:
+            extra_vars:
+              vm_name: "{{ event.payload.eventData.impactedEntitiesId[0].name }}"

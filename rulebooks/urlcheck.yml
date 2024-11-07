@@ -17,4 +17,4 @@
           organization: "Infrastructure"
           job_args:
             extra_vars:
-              vm_name: "{{ event.payload.eventData.impactedEntitiesId[0].name }}"
+              vm_name: "rhel8.shadowman.dev"

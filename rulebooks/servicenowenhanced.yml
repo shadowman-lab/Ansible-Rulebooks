@@ -28,9 +28,9 @@
           organization: "Infrastructure"
           job_args:
             extra_vars:
-              vm_name: "{{ event.enriched_event.ritm_details[0].variables | selectattr('name', 'match', 'vm_name') | map(attribute='value') | join(',') }}"
+              vm_name: "{{ event.enriched_event.ritm_details[0].variables | selectattr('name', 'equalto', 'vm_name') | map(attribute='value') | join(',') }}"
               owner: "{{ event.enriched_event.ritm_details[0].requested_for.display_value }}"
-              env: "{{ event.enriched_event.ritm_details[0].variables | selectattr('name', 'match', 'env') | map(attribute='value') | join(',') }}"
+              env: "{{ event.enriched_event.ritm_details[0].variables | selectattr('name', 'equalto', 'env') | map(attribute='value') | join(',') }}"
               ticket_number: "{{ event.original_event }}"
-              operating_system: "{{ event.enriched_event.ritm_details[0].variables | selectattr('name', 'match', 'operating_system') | map(attribute='value') | join(',') }}"
-              shadowman_provision_hypervisor: "{{ event.enriched_event.ritm_details[0].variables | selectattr('name', 'match', 'shadowman_provision_hypervisor') | map(attribute='value') | join(',') }}"
+              operating_system: "{{ event.enriched_event.ritm_details[0].variables | selectattr('name', 'equalto', 'operating_system') | map(attribute='value') | join(',') }}"
+              shadowman_provision_hypervisor: "{{ event.enriched_event.ritm_details[0].variables | selectattr('name', 'equalto', 'shadowman_provision_hypervisor') | map(attribute='value') | join(',') }}"

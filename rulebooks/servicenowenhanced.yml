@@ -10,7 +10,7 @@
   rules:
 
     - name: Enrich new REQ received from Service Catalog
-      condition: event.payload.sys_class_name == "sc_request" and event.payload.active == 1
+      condition: event.payload.sys_class_name == "sc_request" and event.payload.sys_mod_count == 0
       action:
         run_job_template:
           name: "EDA Enrich ServiceNow REQ"

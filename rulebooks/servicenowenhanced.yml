@@ -20,6 +20,6 @@
               req_sys_id: "{{ event.payload.sys_id }}"
 
     - name: New Multi Provision VM Request
-      condition: event.enriched_event.ritm_details is selectattr('cat_item.display_value', '==', "AAP Multi Provision w/ Citrix")
+      condition: event.enriched_event.ritm_details is selectattr('cat_item.display_value', '==', "AAP EDA Multi Provision w/ Citrix")
       action:
         debug:

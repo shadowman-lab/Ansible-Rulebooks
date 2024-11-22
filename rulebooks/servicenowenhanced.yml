@@ -24,13 +24,13 @@
       condition: event.enriched_event.ritm_details is selectattr('cat_item.display_value', '==', "AAP EDA Multi Provision w/ Citrix")
       action:
         run_workflow_template:
-          name: "Multi Hypervisor Create and Config VM, Deploy Web App with Failure Paths Citrix"
+          name: "EDA Multi Hypervisor Create and Config VM, Deploy Web App with Failure Paths Citrix"
           organization: "Infrastructure"
           job_args:
             extra_vars:
-              vm_name: "{{ event.enriched_event.ritm_details[0].variables | selectattr('name', 'match', 'vm_name') | map(attribute='value') | flatten}}"
+              vm_name: "{{ event.enriched_event.ritm_details[0].variables | selectattr('name', 'match', 'vm_name') | map(attribute='value') }}"
               owner: "{{ event.enriched_event.ritm_details[0].requested_for.display_value }}"
-              env: "{{ event.enriched_event.ritm_details[0].variables | selectattr('name', 'match', 'env') | map(attribute='value') | flatten }}"
+              env: "{{ event.enriched_event.ritm_details[0].variables | selectattr('name', 'match', 'env') | map(attribute='value') }}"
               ticket_number: "{{ event.original_event }}"
-              operating_system: "{{ event.enriched_event.ritm_details[0].variables | selectattr('name', 'match', 'operating_system') | map(attribute='value') | flatten }}"
-              shadowman_provision_hypervisor: "{{ event.enriched_event.ritm_details[0]. | selectattr('name', 'match', 'shadowman_provision_hypervisor') | map(attribute='value') | flatten }}"
+              operating_system: "{{ event.enriched_event.ritm_details[0].variables | selectattr('name', 'match', 'operating_system') | map(attribute='value') }}"
+              shadowman_provision_hypervisor: "{{ event.enriched_event.ritm_details[0]. | selectattr('name', 'match', 'shadowman_provision_hypervisor') | map(attribute='value') }}"

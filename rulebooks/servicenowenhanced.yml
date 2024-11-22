@@ -24,7 +24,7 @@
       condition: event.enriched_event.ritm_details is selectattr('cat_item.display_value', '==', "AAP EDA Multi Provision w/ Citrix")
       action:
         run_workflow_template:
-          name: "Multi Hypervisor Create and Config VM, Deploy Web App with Failure Paths Citrix"
+          name: "EDA Multi Hypervisor Create and Config VM, Deploy Web App with Failure Paths Citrix"
           organization: "Infrastructure"
           job_args:
             extra_vars:

@@ -29,7 +29,7 @@
           job_args:
             extra_vars:
               vm_name: "{{ event.enriched_event.ritm_details[0].variables | selectattr('name', 'equalto', 'vm_name') | map(attribute='value') | join(',') }}"
-              owner: "{{ event.enriched_event.ritm_details[0].requested_for.display_value }}"
+              owner: "{{ event.user }}"
               env: "{{ event.enriched_event.ritm_details[0].variables | selectattr('name', 'equalto', 'env') | map(attribute='value') | join(',') }}"
               ticket_number: "{{ event.original_event }}"
               operating_system: "{{ event.enriched_event.ritm_details[0].variables | selectattr('name', 'equalto', 'operating_system') | map(attribute='value') | join(',') }}"

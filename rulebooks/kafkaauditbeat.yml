@@ -12,6 +12,10 @@
   rules:
     - name: The web server was modified on Windows
       condition: event.body.file.path is match("C:\\inetpub\\wwwroot\\", ignorecase=true)
+      throttle:
+        once_within: 2 minutes
+        group_by_attributes:
+          - event.body.host.hostname
       action:
         run_job_template:
           name: "EDA Web Application"
@@ -22,6 +26,10 @@
 
     - name: The web server was modified on RHEL
       condition: event.body.file.path is match("/var/www/html/", ignorecase=true)
+      throttle:
+        once_within: 2 minutes
+        group_by_attributes:
+          - event.body.host.hostname
       action:
         run_job_template:
           name: "EDA Web Application"

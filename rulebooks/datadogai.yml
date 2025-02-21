@@ -17,3 +17,4 @@
           job_args:
             extra_vars:
               vm_name: "{{ event.payload.hostname }}"
+              service_issue: "httpd"

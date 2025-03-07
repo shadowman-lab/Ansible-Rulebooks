@@ -1,0 +1,29 @@
+---
+- name: Listen for events on a generic webhook from Dynatace
+  hosts: all
+  sources:
+    - name: Listen for alerts from Dynatrace
+      dynatrace.event_driven_ansible.dt_webhook:
+        host: 0.0.0.0
+        port: 4998
+
+  rules:
+    - name: High CPU Usage Detected
+      condition: event.payload.problemTitle == "CPU saturation"
+      action:
+        run_workflow_template:
+          name: "Automated Response High CPU EDA"
+          organization: "Infrastructure"
+          job_args:
+            extra_vars:
+              vm_name: "{{ event.payload.eventData.impactedEntitiesId[0].name }}"
+
+    - name: Web Application Down Detected
+      condition: event.payload.problemTitle == "Minimum process count not met for rule HTTPD Host Monitor" or event.payload.problemTitle == "Minimum process count not met for rule IIS Host Monitor"
+      action:
+        run_workflow_template:
+          name: "Automated Response Web Server EDA"
+          organization: "Infrastructure"
+          job_args:
+            extra_vars:
+              vm_name: "{{ event.payload.eventData.impactedEntitiesId[0].name }}"

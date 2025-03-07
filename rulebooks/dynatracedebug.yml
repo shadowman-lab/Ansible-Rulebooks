@@ -1,0 +1,14 @@
+---
+- name: Listen for events on a webhook from Dynatace
+  hosts: all
+  sources:
+    - name: Listen for alerts from Dynatrace
+      dynatrace.event_driven_ansible.dt_webhook:
+        host: 0.0.0.0
+        port: 4998
+
+  rules:
+    - name: Debug
+      condition: event.meta is defined
+      action:
+        debug:

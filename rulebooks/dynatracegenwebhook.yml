@@ -16,7 +16,7 @@
           organization: "Infrastructure"
           job_args:
             extra_vars:
-              vm_name: "{{ event.payload.eventData.impactedEntitiesId[0].name }}"
+              vm_name: "{{ event.payload.impactedEntitiesId[0].name }}"
 
     - name: Web Application Down Detected
       condition: event.payload.problemTitle == "Minimum process count not met for rule HTTPD Host Monitor" or event.payload.problemTitle == "Minimum process count not met for rule IIS Host Monitor"
@@ -26,4 +26,4 @@
           organization: "Infrastructure"
           job_args:
             extra_vars:
-              vm_name: "{{ event.payload.eventData.impactedEntitiesId[0].name }}"
+              vm_name: "{{ event.payload.impactedEntitiesId[0].name }}"

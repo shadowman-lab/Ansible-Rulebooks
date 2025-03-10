@@ -12,7 +12,7 @@
       condition: event.payload.event_title == "[Triggered] Web Server is Down"
       action:
         run_workflow_template:
-          name: "HTTPD AI Response"
+          name: "Ansible AI Response"
           organization: "Infrastructure"
           job_args:
             extra_vars:

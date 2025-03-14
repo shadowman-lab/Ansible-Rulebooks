@@ -1,0 +1,19 @@
+---
+- name: Listen for events on a webhook from Datadog With SNOW Logs
+  hosts: all
+  sources:
+    - name: Listen for alerts from Datadog
+      ansible.eda.webhook:
+        host: 0.0.0.0
+        port: 4999
+
+  rules:
+    - name: High CPU Usage Detected Gather Logs and Correct
+      condition: event.payload.event_title == "[Triggered] CPU Load is high"
+      action:
+        run_workflow_template:
+          name: "Automated Response High CPU Logs"
+          organization: "Infrastructure"
+          job_args:
+            extra_vars:
+              vm_name: "{{ event.payload.hostname }}"

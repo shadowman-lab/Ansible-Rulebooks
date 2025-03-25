@@ -8,7 +8,27 @@
         port: 4998
 
   rules:
-    - name: Output LM Information
+    - name: High CPU Usage Detected
+      condition: event.payload.datasource == "CPU / Memory" and event.payload.datapoint == "1MinLoadPerCoreAvg" and event.payload.status == "active"
+      action:
+        run_workflow_template:
+          name: "Automated Response High CPU EDA"
+          organization: "Infrastructure"
+          job_args:
+            extra_vars:
+              vm_name: "{{ event.payload.host }}"
+
+    - name: Web Application Down Detected
+      condition: event.payload.datasource == "HTTPS-443" and event.payload.datapoint == "CantConnect" and event.payload.status == "active"
+      action:
+        run_workflow_template:
+          name: "Automated Response Web Server EDA"
+          organization: "Infrastructure"
+          job_args:
+            extra_vars:
+              vm_name: "{{ event.payload.host }}"
+
+    - name: See all other LM alerts
       condition: event.meta is defined
       action:
         debug:

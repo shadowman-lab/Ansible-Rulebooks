@@ -15,4 +15,4 @@
           name: "A Simple Test"
           organization: "Infrastructure"
           job_args:
-            inventory: "Localhost Inventory"
+            inventory: 1

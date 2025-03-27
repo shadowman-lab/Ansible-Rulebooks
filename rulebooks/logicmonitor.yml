@@ -28,6 +28,17 @@
             extra_vars:
               vm_name: "{{ event.payload.host }}"
 
+    - name: Local User Created
+      condition: event.payload.datasource == "LM Logs" and event.payload.datapoint == "New User Alert" and event.payload.status == "active"
+      action:
+        run_job_template:
+          name: "Remove Local User"
+          organization: "Infrastructure"
+          job_args:
+            extra_vars:
+              vm_name: "{{ event.payload.host }}"
+              event_logs: "{{ event.payload.value }}"
+
     - name: See all other LM alerts
       condition: event.meta is defined
       action:

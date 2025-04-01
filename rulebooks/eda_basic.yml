@@ -11,7 +11,7 @@
   rules:
     - name: EDA - Basic Webhook Testing from EDA COntroller to AAP
       condition: event.meta is defined
-      actions:
+      action:
         run_job_template:
           name: 'EDA - Basic Test'
           organization: 'Default'

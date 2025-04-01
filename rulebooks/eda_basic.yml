@@ -1,0 +1,17 @@
+
+---
+- name: Basic Webhook Actions Test
+  hosts: all
+  sources:
+    - ansible.eda.webhook:
+        host: 0.0.0.0
+        port: 5001
+  # To activate:
+  # curl -v -H 'Content-Type: application/json' -d "{\"actionType\": \"SCALE\"}" https://eda-webhook.apps.hou.edgelab.online
+  rules:
+    - name: EDA - Basic Webhook Testing from EDA COntroller to AAP
+      condition: event.meta is defined
+      actions:
+        run_job_template:
+          name: 'EDA - Basic Test'
+          organization: 'Default'

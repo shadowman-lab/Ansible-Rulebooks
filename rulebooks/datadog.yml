@@ -28,6 +28,16 @@
             extra_vars:
               vm_name: "{{ event.payload.hostname }}"
 
+    - name: Datadog Not Responding
+      condition: event.payload.event_title == "[Triggered] Host not reporting data"
+      action:
+        run_workflow_template:
+          name: "Remediate Datadog"
+          organization: "Infrastructure"
+          job_args:
+            extra_vars:
+              vm_name: "{{ event.payload.hostname }}"
+
     - name: See all other datadog alerts
       condition: event.meta is defined and event.payload.event_title != "[Triggered] CPU Load is high" and event.payload.event_title != "[Triggered] Web Server is Down"  # noqa yaml[line-length]
       action:

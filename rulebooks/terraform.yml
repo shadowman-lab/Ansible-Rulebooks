@@ -1,0 +1,33 @@
+---
+- name: Listen for events on a webhook from Terraform
+  hosts: all
+  sources:
+    - name: Listen for alerts from LM
+      ansible.eda.webhook:
+        host: 0.0.0.0
+        port: 5010
+
+  rules:
+    - name: Post Plan
+      condition: event.payload.stage == "post_plan"
+      action:
+        run_job_template:
+          name: "Terraform Cloud VM Post Plan"
+          organization: "Infrastructure"
+          job_args:
+            extra_vars:
+              plan_json_api_url: "{{ event.payload.plan_json_api_url }}"
+              task_result_callback_url: "{{ event.payload.task_result_callback_url }}"
+              access_token: "{{ event.payload.access_token }}"
+
+    - name: Post Apply
+      condition: event.payload.stage == "post_apply"
+      action:
+        run_job_template:
+          name: "Terraform Cloud VM Post Apply"
+          organization: "Infrastructure"
+          job_args:
+            extra_vars:
+              plan_json_api_url: "{{ event.payload.plan_json_api_url }}"
+              task_result_callback_url: "{{ event.payload.task_result_callback_url }}"
+              access_token: "{{ event.payload.access_token }}"

@@ -9,10 +9,10 @@
 
   rules:
     - name: Post Plan
-      condition: event.payload.stage == "post_plan"
+      condition: event.payload.stage == "pre_apply"
       action:
         run_job_template:
-          name: "Terraform Cloud VM Post Plan"
+          name: "Terraform Cloud VM Pre Apply"
           organization: "Infrastructure"
           job_args:
             extra_vars:

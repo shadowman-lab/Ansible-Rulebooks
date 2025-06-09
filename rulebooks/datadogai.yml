@@ -18,3 +18,14 @@
             extra_vars:
               vm_name: "{{ event.payload.hostname }}"
               service_issue: "httpd"
+
+    - name: High CPU Usage Detected
+      condition: event.payload.event_title == "[Triggered] CPU Load is high"
+      action:
+        run_workflow_template:
+          name: "Ansible AI Enrichment CPU"
+          organization: "Infrastructure"
+          job_args:
+            extra_vars:
+              vm_name: "{{ event.payload.hostname }}"
+              service_issue: "cpu"

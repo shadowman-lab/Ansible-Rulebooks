@@ -18,3 +18,4 @@
             extra_vars:
               vm_name: "{{ event.payload.results.host }}"
               user_name: "{{ event.payload.results.name }}"
+              logs: "{{ event.payload.results._raw }}"

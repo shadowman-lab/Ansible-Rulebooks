@@ -1,0 +1,20 @@
+---
+- name: Listen for events on a webhook from Splunk
+  hosts: all
+  sources:
+    - name: Listen for alerts from Splunk
+      ansible.eda.webhook:
+        host: 0.0.0.0
+        port: 5010
+
+  rules:
+    - name: Webhook Event from Splunk for RHEL Local User Created
+      condition: event.payload.results.process  == "useradd"
+      action:
+        run_job_template:
+          name: "Remove Local User"
+          organization: "Infrastructure"
+          job_args:
+            extra_vars:
+              vm_name: "{{ event.payload.results.host }}"
+              user_name: "{{ event.payload.results.name }}"

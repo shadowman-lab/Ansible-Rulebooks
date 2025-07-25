@@ -14,5 +14,8 @@
       condition: event.resource.kind == "Namespace" and event.type == "ADDED"
       action:
         run_job_template:
-          name: Set Resource Quota on Namespace
+          name: OpenShift Set Resource Quota on Namespace
           organization: Application Development
+          job_args:
+            extra_vars:
+              namespace: "{{ event.resource.metadata.name }}"

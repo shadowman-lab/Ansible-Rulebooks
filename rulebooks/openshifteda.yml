@@ -1,8 +1,8 @@
 ---
-- name: Listen for K8s events
+- name: Listen for OpenShift events
   hosts: all
   sources:
-    - name: Listen for K8s events
+    - name: Listen for OpenShift events
       juniper.eda.k8s:
         kubeconfig: "{{ eda.filename.kubeconfig }}"
         kinds:

@@ -1,0 +1,18 @@
+---
+- name: Listen for K8s events
+  hosts: all
+  sources:
+    - name: Listen for K8s events
+      juniper.eda.k8s:
+        kinds:
+          - api_version: v1
+            kind: Namespace
+          - api_version: v1
+            kind: Route
+  rules:
+    - name: Set Resource Quotas to a Namespace
+      condition: event.resource.kind == "Namespace" and event.type == "ADDED"
+      action:
+        run_job_template:
+          name: Set Resource Quota on Namespace
+          organization: Application Development

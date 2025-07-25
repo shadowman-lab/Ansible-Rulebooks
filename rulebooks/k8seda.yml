@@ -6,6 +6,7 @@
       juniper.eda.k8s:
         host: "{{ host }}"
         api_key: "{{ api_key }}"
+        context: "{{ context }}"
         verify_ssl: "{{ verify_ssl }}"
         kinds:
           - api_version: v1

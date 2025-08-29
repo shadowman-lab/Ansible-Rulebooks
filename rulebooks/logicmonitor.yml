@@ -28,6 +28,16 @@
             extra_vars:
               vm_name: "{{ event.payload.host }}"
 
+    - name: SSL Certificate Set to Expire
+      condition: event.payload.datasource == "SSL Certificates-HTTPS" and event.payload.datapoint == "DaysRemaining" and event.payload.status == "active"
+      action:
+        run_job_template:
+          name: "Web Application Certificate Replacement Hashi"
+          organization: "Application Development"
+          job_args:
+            extra_vars:
+              vm_name: "{{ event.payload.host }}"
+
     - name: Local User Created
       condition: event.payload.datasource == "LM Logs" and (event.payload.datapoint == "New User Alert" or event.payload.datapoint == "RHEL New User Alert") and event.payload.status == "active"
       action:

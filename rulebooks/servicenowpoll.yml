@@ -7,10 +7,6 @@
         interval: "{{ servicenow_interval }}"
 
   rules:
-    - name: New record created
-      condition: event.sys_id is defined
-      action:
-        debug:
 
     - name: Enrich new REQ received from Service Catalog
       condition: event.sys_class_name == "sc_request" and event.sys_mod_count == "0"

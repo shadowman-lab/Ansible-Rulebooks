@@ -1,0 +1,15 @@
+- name: Poll for new records in ServiceNow
+  hosts: all
+  execution_strategy: parallel
+  sources:
+    - name: Watch for updated table
+      servicenow.itsm.records:
+        table: "{{ servicenow_table }}"
+        interval: "{{ servicenow_interval }}"
+
+  rules:
+
+    - name: New record created
+      condition: event.sys_id is defined
+      action:
+        debug:

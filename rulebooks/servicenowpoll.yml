@@ -1,5 +1,7 @@
+---
 - name: Watch for new records in ServiceNow
   hosts: localhost
+  execution_strategy: parallel
   sources:
     - name: Watch for updated change requests
       servicenow.itsm.records:

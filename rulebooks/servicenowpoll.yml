@@ -1,4 +1,4 @@
-- name: Watch for new records
+- name: Watch for new records in ServiceNow
   hosts: localhost
   sources:
     - name: Watch for updated change requests
@@ -11,3 +11,30 @@
       condition: event.sys_id is defined
       action:
         debug:
+
+    - name: Enrich new REQ received from Service Catalog
+      condition: event.sys_class_name == "sc_request" and event.sys_mod_count == "0"
+      action:
+        run_job_template:
+          name: "EDA Enrich ServiceNow REQ"
+          organization: Infrastructure
+          post_events: true
+          job_args:
+            extra_vars:
+              req_sys_id: "{{ event.sys_id }}"
+              req_number: "{{ event.number }}"
+
+    - name: New Multi Provision VM Request
+      condition: event.enriched_event.ritm_details is selectattr('cat_item.display_value', '==', "AAP EDA Multi Provision w/ Citrix")
+      action:
+        run_workflow_template:
+          name: "EDA Multi Hypervisor Create and Config VM, Deploy Web App with Failure Paths Citrix"
+          organization: "Infrastructure"
+          job_args:
+            extra_vars:
+              vm_name: "{{ event.enriched_event.ritm_details[0].variables | selectattr('name', 'equalto', 'vm_name') | map(attribute='value') | join(',') }}"
+              owner: "{{ event.user }}"
+              env: "{{ event.enriched_event.ritm_details[0].variables | selectattr('name', 'equalto', 'env') | map(attribute='value') | join(',') }}"
+              ticket_number: "{{ event.original_event }}"
+              operating_system: "{{ event.enriched_event.ritm_details[0].variables | selectattr('name', 'equalto', 'operating_system') | map(attribute='value') | join(',') }}"
+              shadowman_provision_hypervisor: "{{ event.enriched_event.ritm_details[0].variables | selectattr('name', 'equalto', 'shadowman_provision_hypervisor') | map(attribute='value') | join(',') }}"

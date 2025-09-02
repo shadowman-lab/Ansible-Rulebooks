@@ -1,0 +1,16 @@
+- name: Watch for new records
+  hosts: localhost
+  sources:
+    - name: Watch for updated change requests
+      servicenow.itsm.records:
+        instance: "{{ servicenow_instance }}"
+        username: "{{ servicenow_user }}"
+        password: "{{ servicenow_password }}"
+        table: "{{ servicenow_table }}"
+        interval: "{{ servicenow_interval }}"
+
+  rules:
+    - name: New record created
+      condition: event.sys_id is defined
+      action:
+        debug:

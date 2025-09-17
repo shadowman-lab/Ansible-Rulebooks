@@ -1,9 +1,9 @@
 ---
-- name: Automatic Remediation from Alert Manager
+- name: Automatic Remediation from Alertmanager
   hosts: all
   execution_strategy: parallel
   sources:
-    - name: Listen for alerts from Alert Manager
+    - name: Listen for alerts from Alertmanager
       ansible.eda.alertmanager:
         host: 0.0.0.0
         port: 8000

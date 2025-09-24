@@ -1,0 +1,14 @@
+---
+- name: Listen for events on a webhook from Dynatace
+  hosts: all
+  sources:
+    - name: Listen for alerts from Dynatrace
+      ansible.eda.webhook:
+        host: 0.0.0.0
+        port: 4997
+
+  rules:
+    - name: High CPU Usage Detected
+      condition: event.payload.eventData.['event.name'] == "CPU saturation"
+      action:
+        debug:

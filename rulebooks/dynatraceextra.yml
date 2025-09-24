@@ -1,5 +1,5 @@
 ---
-- name: Listen for events on a webhook from Dynatace
+- name: Listen for events on a webhook from Dynatace without query
   hosts: all
   sources:
     - name: Listen for alerts from Dynatrace
@@ -11,4 +11,19 @@
     - name: High CPU Usage Detected
       condition: event.payload.eventData['event.name'] == "CPU saturation"
       action:
-        debug:
+        run_workflow_template:
+          name: "Automated Response High CPU EDA"
+          organization: "Infrastructure"
+          job_args:
+            extra_vars:
+              vm_name: "{{ event.payload.eventData['host.name'][0] }}"
+
+    - name: Web Application Down Detected
+      condition: event.payload.eventData['event.name'] == "Minimum process count not met for rule HTTPD Host Monitor" or event.payload.eventData.problemTitle == "Minimum process count not met for rule IIS Host Monitor"
+      action:
+        run_workflow_template:
+          name: "Automated Response Web Server EDA"
+          organization: "Infrastructure"
+          job_args:
+            extra_vars:
+              vm_name: "{{ event.payload.eventData['host.name'][0] }}"

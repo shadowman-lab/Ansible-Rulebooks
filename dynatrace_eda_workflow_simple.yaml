@@ -1,0 +1,75 @@
+metadata:
+  version: "1"
+  dependencies:
+    apps:
+      - id: dynatrace.redhat.ansible
+        version: ^2.1.2
+  inputs:
+    - type: connection
+      schema: app:dynatrace.redhat.ansible:eda-webhook.connection
+      targets:
+        - tasks.send_event_to_event-driven-ansible_1.connectionId
+workflow:
+  title: Shadowman EDA Workflow - Simple
+  tasks:
+    send_event_to_event-driven-ansible_1:
+      name: send_event_to_event-driven-ansible_1
+      description: Send an event to the Red Hat Event-Driven-Ansible Controller via
+        Event Source Plugin
+      action: dynatrace.redhat.ansible:send-event-to-eda
+      input:
+        eventData: "{{ event() }}"
+        connectionId: ""
+      position:
+        x: 0
+        y: 1
+      predecessors: []
+      conditions:
+        states: {}
+  description: ""
+  trigger:
+    eventTrigger:
+      filterQuery: >-
+        event.kind == "DAVIS_PROBLEM" AND event.status == "ACTIVE" AND
+        (event.status_transition == "CREATED" OR event.status_transition ==
+        "UPDATED" OR event.status_transition == "REOPENED") AND (event.category
+        == "AVAILABILITY" OR event.category == "ERROR" OR event.category ==
+        "RESOURCE_CONTENTION") AND (maintenance.is_under_maintenance == false
+        and
+
+        event.status_transition =="CREATED"
+
+        AND isNotNull(affected_entity_ids)
+
+        AND matchesPhrase(entity_tags,"shadowman")
+
+
+
+        )
+      isActive: false
+      uniqueExpression: '{{ event()["event.id"] }}-{{ "open" if
+        event()["event.status_transition"] in ("CREATED", "UPDATED", "REOPENED",
+        "REFRESHED") else "resolved" }}-{{
+        event()["dt.davis.last_reopen_timestamp"] }}'
+      triggerConfiguration:
+        type: davis-problem
+        value:
+          categories:
+            error: true
+            resource: true
+            availability: true
+          entityTags: {}
+          customFilter: |+
+            maintenance.is_under_maintenance == false and
+            event.status_transition =="CREATED"
+            AND isNotNull(affected_entity_ids)
+            AND matchesPhrase(entity_tags,"shadowman")
+
+
+          onProblemClose: false
+          entityTagsMatch: all
+  schemaVersion: 3
+  result: null
+  input: {}
+  hourlyExecutionLimit: 1000
+  type: STANDARD

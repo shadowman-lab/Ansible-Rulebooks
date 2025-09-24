@@ -9,6 +9,6 @@
 
   rules:
     - name: High CPU Usage Detected
-      condition: event.payload.eventData.['event.name'] == "CPU saturation"
+      condition: event.payload.eventData['event.name'] == "CPU saturation"
       action:
         debug:

@@ -150,7 +150,7 @@ workflow:
       description: Issue an HTTP request to any API.
       action: dynatrace.automations:http-function
       input:
-        url: https://tower.shadowman.dev/eda-event-streams/api/eda/v1/external_event_stream/91fcb6a7-edf7-4d72-85e9-7350844f6479/post/
+        url: https://aap.shadowman.dev/eda-event-streams/api/eda/v1/external_event_stream/XXXXXXX/post/
         method: POST
         headers:
           Content-Type: application/json

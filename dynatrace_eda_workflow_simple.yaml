@@ -41,10 +41,6 @@ workflow:
 
         AND isNotNull(affected_entity_ids)
 
-        AND matchesPhrase(entity_tags,"shadowman")
-
-
-
         )
       isActive: false
       uniqueExpression: '{{ event()["event.id"] }}-{{ "open" if
@@ -63,7 +59,6 @@ workflow:
             maintenance.is_under_maintenance == false and
             event.status_transition =="CREATED"
             AND isNotNull(affected_entity_ids)
-            AND matchesPhrase(entity_tags,"shadowman")
 
 
           onProblemClose: false

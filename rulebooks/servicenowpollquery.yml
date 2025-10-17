@@ -1,0 +1,18 @@
+---
+- name: Poll for new records in ServiceNow
+  hosts: all
+
+  sources:
+    - name: Watch for updated table
+      servicenow.itsm.records:
+        table: "{{ servicenow_table }}"
+        interval: "{{ servicenow_interval }}"
+        sysparm_query: "{{ servicenow_sysparm_query }}"
+        updated_since: "{{ servicenow_updated_since }}"
+
+  rules:
+
+    - name: Debug
+      condition: event.sys_id is defined
+      action:
+        debug:

@@ -10,7 +10,8 @@
 
   rules:
 
-    - name: New record created and debug
+    - name: Trigger action on specific event
       condition: event.sys_id is defined
-      action:
-        debug:
+      actions:
+        - debug:
+            msg: "{{ event.number }} - {{ event.description }}"

@@ -9,6 +9,7 @@
         interval: "{{ servicenow_interval }}"
         sysparm_query: "{{ servicenow_sysparm_query }}"
         updated_since: "{{ servicenow_updated_since }}"
+        remote_servicenow_timezone: America/New_York
 
   rules:
 

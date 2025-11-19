@@ -9,7 +9,7 @@
         port: 8000
   rules:
     - name: Prometheus Node Exporter Down
-      condition: event.payload.alerts[0].labels.alertname == "ExporterDown" and event.payload.alerts[0].status == "firing" and event.payload.alerts[0].labels.job != "tower metrics"
+      condition: event.payload.alerts[0].labels.alertname == "ExporterDown" and event.payload.alerts[0].status == "firing" and event.payload.alerts[0].labels.job != "controller metrics"
       action:
         run_workflow_template:
           name: "Automated Response Node Exporter Down EDA"

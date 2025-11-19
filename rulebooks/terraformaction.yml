@@ -1,0 +1,21 @@
+---
+- name: Listen for events on a webhook from Terraform Actions
+  hosts: all
+  execution_strategy: parallel
+  sources:
+    - name: Listen for alerts from Terraform
+      ansible.eda.webhook:
+        host: 0.0.0.0
+        port: 5015
+
+  rules:
+    - name: Pre Terraform Apply Ansible Automation
+      condition: event.payload.template_type == "workflow_job"
+      action:
+        run_workflow_template:
+          name: "{{ event.payload.workflow_job_template_name }}"
+          organization: "{{ event.payload.organization_name }}"
+          job_args:
+            extra_vars:
+              vm_name: "{{ event.payload.limit }}"
+              shadowman_provision_hypervisor: "AWS"

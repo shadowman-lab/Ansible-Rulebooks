@@ -9,7 +9,7 @@
         port: 5015
 
   rules:
-    - name: Pre Terraform Apply Ansible Automation
+    - name: Terraform Post Create Action
       condition: event.payload.template_type == "workflow_job"
       action:
         run_workflow_template:

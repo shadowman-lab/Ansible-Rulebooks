@@ -1,0 +1,18 @@
+---
+- name: Generic new poll for new records in ServiceNow
+  hosts: all
+  execution_strategy: parallel
+  sources:
+    - name: Watch for any updated table
+      servicenow.itsm.records:
+        table: "{{ servicenow_table }}"
+        interval: "{{ servicenow_interval }}"
+        remote_servicenow_timezone: America/New_York
+
+  rules:
+
+    - name: Trigger action on specific event
+      condition: event.sys_id is defined
+      actions:
+        - print_event:
+            pretty: true

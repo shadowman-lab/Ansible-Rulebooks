@@ -5,7 +5,7 @@
     - name: URL Check
       ansible.eda.url_check:
         urls:
-          - https://rhel8.shadowman.dev
+          - https://rhel10.shadowman.dev
         delay: 10
 
   rules:

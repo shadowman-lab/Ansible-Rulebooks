@@ -17,4 +17,4 @@
           organization: "Infrastructure"
           job_args:
             extra_vars:
-              vm_name: "rhel8.shadowman.dev"
+              vm_name: "rhel10.shadowman.dev"

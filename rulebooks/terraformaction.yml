@@ -14,8 +14,9 @@
       action:
         run_workflow_template:
           name: "{{ event.payload.workflow_job_template_name }}"
-          organization: "{{ event.payload.organization_name }}"
+          organization: "Infrastructure"
           job_args:
             extra_vars:
               vm_name: "{{ event.payload.limit }}"
+              ticket_number: "{{ event.payload.organization_name }}"
               shadowman_provision_hypervisor: "AWS"

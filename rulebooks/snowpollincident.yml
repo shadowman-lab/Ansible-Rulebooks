@@ -11,7 +11,7 @@
 
   rules:
     - name: Increase CPU on requested Node
-      condition: event.subcategory == "cpu"
+      condition: event.subcategory == "cpu" and event.sys_mod_count == "0"
       action:
         run_workflow_template:
           name: "mbredeme - Automated Response High CPU Service Now Incident"

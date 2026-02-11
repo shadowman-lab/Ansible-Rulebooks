@@ -1,0 +1,26 @@
+---
+- name: Poll for new Incidents in ServiceNow
+  hosts: all
+  execution_strategy: parallel
+  sources:
+    - name: Watch for updated incident table
+      servicenow.itsm.records:
+        table: incident
+        interval: "5"
+        remote_servicenow_timezone: America/New_York
+
+  rules:
+    - name: Increase CPU on requested Node
+      condition: event.subcategory == "cpu"
+      action:
+        run_workflow_template:
+          name: "mbredeme - Automated Response High CPU Service Now Incident"
+          organization: "Infrastructure"
+          job_args:
+            extra_vars:
+              vm_name: "{{ event.u_vm_name }}"
+              ticket_number: "{{ event.number }}"
+              comment: "Ansible Increasing CPU by core"
+              close_code: Solved (Permanently)
+              snow_incident_link: "https://ven07619.service-now.com/nav_to.do?uri=incident.do?sysparm_query=number={{ event.number }}"
+              payload: "{{ event }}"

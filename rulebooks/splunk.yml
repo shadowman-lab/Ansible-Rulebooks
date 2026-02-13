@@ -21,12 +21,12 @@
               logs: "{{ event.payload.results._raw }}"
 
     - name: A Down Interface has been detected
-      condition: event.payload.eventtype == "cisco_ios cisco_ios-ios cisco_ios-port_down"
+      condition: event.payload.results.eventtype == "cisco_ios cisco_ios-ios cisco_ios-port_down"
       action:
         run_job_template:
           name: "Network Interface Remediation"
           organization: Networking
           job_args:
             extra_vars:
-              downinterface: "{{ event.payload.src_interface }}"
-              device: "{{ event.payload.dvc }}"
+              downinterface: "{{ event.payload.results.src_interface }}"
+              device: "{{ event.payload.results.dvc }}"

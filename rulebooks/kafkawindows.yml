@@ -26,6 +26,17 @@
   # https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5025
   # https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4950
   # https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/monitor-the-resource-attributes-on-files-and-folders
+    - name: A Windows Firewall rule was added
+      condition: event.body.winlog.event_id == "2097"
+      action:
+        run_job_template:
+          name: "Remove Firewall Rule"
+          organization: Infrastructure
+          job_args:
+            extra_vars:
+              vm_name: "{{ event.body.winlog.computer_name }}"
+              ruletodelete: "{{ event.body.winlog.event_data.RuleName }}"
+              event_logs: "{{ event.body.message }}"
 
     # - name: A Firewall Event was detected
     #   condition: event.body.message is search ("The Windows Firewall service")

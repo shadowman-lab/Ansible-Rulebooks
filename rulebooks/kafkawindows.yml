@@ -27,7 +27,7 @@
   # https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4950
   # https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/monitor-the-resource-attributes-on-files-and-folders
     - name: A Windows Firewall rule was added
-      condition: event.body.winlog.event_id == "2097"
+      condition: event.body.winlog.event_id == "2097" and event.body.winlog.event_data.RuleName == "AnsibleRule"
       action:
         run_job_template:
           name: "Remove Firewall Rule"

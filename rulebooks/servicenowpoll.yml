@@ -8,6 +8,7 @@
         table: "{{ servicenow_table }}"
         interval: "{{ servicenow_interval }}"
         remote_servicenow_timezone: America/New_York
+        updated_since: "2026-03-25 09:00:00"
 
   rules:
 

@@ -4,7 +4,7 @@
   execution_strategy: parallel
   sources:
     - name: Listen for alerts from Terraform
-      ansible.eda.webhook:
+      eda.builtin.webhook:
         host: 0.0.0.0
         port: 5010
 

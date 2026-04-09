@@ -4,7 +4,7 @@
   execution_strategy: parallel
   sources:
     - name: Listen for alerts from Red Hat Insights
-      ansible.eda.webhook:
+      eda.builtin.webhook:
         port: 5002
 
   rules:

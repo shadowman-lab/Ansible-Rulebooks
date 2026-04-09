@@ -3,7 +3,7 @@
 - name: Basic Webhook Actions Test
   hosts: all
   sources:
-    - ansible.eda.webhook:
+    - eda.builtin.webhook:
         host: 0.0.0.0
         port: 5001
   # To activate:

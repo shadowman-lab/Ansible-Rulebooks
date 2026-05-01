@@ -10,6 +10,10 @@
   rules:
     - name: High Memory Usage Detected
       condition: event.payload.vmware_alert.alarm_name == "alarm.VmMemoryUsageAlarm"
+      throttle:
+        once_within: 2 minutes
+        group_by_attributes:
+          - event.payload.vmware_alert.alarm_target
       action:
         run_workflow_template:
           name: "Ansible AI Enrichment Memory"
@@ -21,6 +25,10 @@
 
     - name: High CPU Usage Detected
       condition: event.payload.vmware_alert.alarm_name == "alarm.VmCPUUsageAlarm"
+      throttle:
+        once_within: 2 minutes
+        group_by_attributes:
+          - event.payload.vmware_alert.alarm_target
       action:
         run_workflow_template:
           name: "Ansible AI Enrichment CPU"

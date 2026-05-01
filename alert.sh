@@ -18,9 +18,22 @@ TOKEN="YOURTOKEN"
           \"vmware_alert\": {
             \"title\": \"vCenter Alarm\",
             \"target\": \"$VMWARE_ALARM_TARGET_NAME\",
+            \"target_id\": \"$VMWARE_ALARM_TARGET_ID\",
             \"value\": \"$VMWARE_ALARM_ALARMVALUE\",
+            \"oldstatus\": \"$VMWARE_ALARM_OLDSTATUS\",
             \"status\": \"$VMWARE_ALARM_NEWSTATUS\",
             \"alarm\": \"$VMWARE_ALARM_NAME\",
+            \"alarm_id\": \"$VMWARE_ALARM_ID\",
+            \"event_username\": \"$VMWARE_ALARM_EVENT_USERNAME\",
+            \"event_datacenter\": \"$VMWARE_ALARM_EVENT_DATACENTER\",
+            \"event_computersource\": \"$VMWARE_ALARM_EVENT_COMPUTERSOURCE\",
+            \"event_host\": \"$VMWARE_ALARM_EVENT_HOST\",
+            \"event_vm\": \"$VMWARE_ALARM_EVENT_VM\",
+            \"event_network\": \"$VMWARE_ALARM_EVENT_NETWORK\",
+            \"event_datastore\": \"$VMWARE_ALARM_EVENT_DATASTORE\",
+            \"event_dvs\": \"$VMWARE_ALARM_EVENT_DVS\",
+            \"triggering_summary\": \"$VMWARE_ALARM_TRIGGERINGSUMMARY\",
+            \"declaring_summary\": \"$VMWARE_ALARM_DECLARINGSUMMARY\",
             \"description\": \"$VMWARE_ALARM_EVENTDESCRIPTION\"
           }
         }"

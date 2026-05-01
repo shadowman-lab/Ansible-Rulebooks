@@ -1,0 +1,31 @@
+---
+- name: Listen for events on a webhook from VMWare
+  hosts: all
+  sources:
+    - name: Listen for alerts from VMWare
+      eda.builtin.webhook:
+        host: 0.0.0.0
+        port: 4999
+
+  rules:
+    - name: High Memory Usage Detected
+      condition: event.payload.vmware_alert.alarm_name == "alarm.VmMemoryUsageAlarm"
+      action:
+        run_workflow_template:
+          name: "Ansible AI Enrichment Memory"
+          organization: "Infrastructure"
+          job_args:
+            extra_vars:
+              vm_name: "{{ event.payload.hostname }}"
+              service_issue: "memory"
+
+    - name: High CPU Usage Detected
+      condition: event.payload.vmware_alert.alarm_name == "alarm.VmCPUUsageAlarm"
+      action:
+        run_workflow_template:
+          name: "Ansible AI Enrichment CPU"
+          organization: "Infrastructure"
+          job_args:
+            extra_vars:
+              vm_name: "{{ event.payload.hostname }}"
+              service_issue: "cpu"

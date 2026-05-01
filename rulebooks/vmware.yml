@@ -9,7 +9,7 @@
 
   rules:
     - name: Alert for ESX Host Memory
-      condition: event.payload.vmware_alert.alarm == "alarm.HostMemoryUsageAlarm"
+      condition: event.payload.vmware_alert.alarm_name == "alarm.HostMemoryUsageAlarm"
       action:
         run_job_template:
           name: "Migrate VMWare VM For ESX Memory"
@@ -19,7 +19,7 @@
               overloadedesx: "{{ event.payload.vmware_alert.target }}"
 
     - name: Alert for ESX Host CPU
-      condition: event.payload.vmware_alert.alarm == "alarm.HostCPUUsageAlarm"
+      condition: event.payload.vmware_alert.alarm_name == "alarm.HostCPUUsageAlarm"
       action:
         run_job_template:
           name: "Migrate VMWare VM For ESX CPU"

@@ -16,7 +16,7 @@
           organization: "Infrastructure"
           job_args:
             extra_vars:
-              vm_name: "{{ event.payload.hostname }}"
+              vm_name: "{{ event.payload.vmware_alert.alarm_target }}"
               service_issue: "memory"
 
     - name: High CPU Usage Detected
@@ -27,5 +27,5 @@
           organization: "Infrastructure"
           job_args:
             extra_vars:
-              vm_name: "{{ event.payload.hostname }}"
+              vm_name: "{{ event.payload.vmware_alert.alarm_target }}"
               service_issue: "cpu"

@@ -1,0 +1,21 @@
+---
+- name: Poll for new Incidents in ServiceNow
+  hosts: all
+  execution_strategy: parallel
+  sources:
+    - name: Watch for updated incident table
+      servicenow.itsm.records:
+        table: incident
+        interval: "5"
+        remote_servicenow_timezone: America/New_York
+
+  rules:
+    - name: Enrich from ServiceNow and AI
+      condition: event.cmdb_ci != "" and event.sys_mod_count == "0"
+      action:
+        run_workflow_template:
+          name: "Ansible AI Enrichment from ServiceNow"
+          organization: "Infrastructure"
+          job_args:
+            extra_vars:
+              payload: "{{ event }}"

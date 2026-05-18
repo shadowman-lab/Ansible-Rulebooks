@@ -9,7 +9,7 @@
 
   rules:
     - name: High CPU Usage Detected
-      condition: event.payload.eventData['event.name'] == "CPU saturation"
+      condition: event.payload.eventData['event.name'] == "CPU Saturation"
       action:
         run_workflow_template:
           name: "Automated Response High CPU EDA"

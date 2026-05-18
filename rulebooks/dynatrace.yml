@@ -20,7 +20,7 @@
 
     - name: Web Application Down Detected
       condition: |
-        event.payload.eventData['event.description'] is search(" HTTPD Host Monitor") or event.payload.eventData['event.description'] is search("Minimum process count not met for the rule: IIS Host Monitor")
+        event.payload.eventData['event.description'] is search("Minimum process count not met for the rule: HTTPD Host Monitor") or event.payload.eventData['event.description'] is search("Minimum process count not met for the rule: IIS Host Monitor")
       action:
         run_workflow_template:
           name: "Automated Response Web Server EDA"

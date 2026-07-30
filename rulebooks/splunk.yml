@@ -23,7 +23,7 @@
     - name: Webhook Event from Splunk for Web Page Modification
       condition: event.payload.results.key  == "web-content-modify"
       throttle:
-        once_within: 2 minutes
+        once_within: 5 minutes
         group_by_attributes:
           - event.payload.results.host
       action:

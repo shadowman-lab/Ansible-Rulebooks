@@ -20,6 +20,20 @@
               user_name: "{{ event.payload.results.name }}"
               logs: "{{ event.payload.results._raw }}"
 
+    - name: Webhook Event from Splunk for Web Page Modification
+      condition: event.payload.results.key  == "web-content-modify"
+      throttle:
+        once_within: 2 minutes
+        group_by_attributes:
+          - event.payload.results.host
+      action:
+        run_job_template:
+          name: "Destory and rebuild web application"
+          organization: "Application Development"
+          job_args:
+            extra_vars:
+              vm_name: "{{ event.payload.results.host }}"
+
     - name: A Down Interface has been detected
       condition: event.payload.results.eventtype == "cisco_ios cisco_ios-ios cisco_ios-port_down"
       action:

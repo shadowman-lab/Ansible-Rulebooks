@@ -48,8 +48,3 @@
             extra_vars:
               vm_name: "{{ event.payload.host }}"
               event_logs: "{{ event.payload.value }}"
-
-    - name: See all other LM alerts
-      condition: event.meta is defined
-      action:
-        debug:

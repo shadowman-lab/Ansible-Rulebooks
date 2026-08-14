@@ -27,8 +27,8 @@
         group_by_attributes:
           - event.payload.results.host
       action:
-        run_job_template:
-          name: "Destory and rebuild web application"
+        run_workflow_template:
+          name: "Automated Response Web Drift EDA"
           organization: "Application Development"
           job_args:
             extra_vars:

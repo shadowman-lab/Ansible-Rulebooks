@@ -32,4 +32,4 @@
                 insights_adv_data: "{{ event.payload.events }}"
                 insights_adv_host_data: "{{ event.payload.context }}"
                 insights_adv_target_host: "{{ event.payload.context.display_name }}"
-                webhook_path: "{{ webhook_path }}"
+                ao_webhook_path: "{{ ao_webhook_path }}"

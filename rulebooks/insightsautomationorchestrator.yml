@@ -20,7 +20,7 @@
                 insights_mal_data: "{{ event.payload.events }}"
 
     - name: Remediate Red Hat Insights Advisory with Automation Orchestrator
-      condition: event.payload is defined and event.payload.event_type == 'new-advisory'
+      condition: event.payload is defined and event.payload.event_type == 'system-cve-all'
       actions:
         - debug:
         - run_job_template:

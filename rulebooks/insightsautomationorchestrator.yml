@@ -24,7 +24,7 @@
       actions:
         - debug:
         - run_job_template:
-            name: "EDA Automation Orchestrator"
+            name: "EDA Automated Response Automation Orchestrator"
             organization: Infrastructure
             job_args:
               extra_vars:

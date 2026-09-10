@@ -34,7 +34,7 @@
             extra_vars:
               vm_name: "{{ event.payload.results.host }}"
 
-    - name: A Down Interface has been detected
+    - name: A Cisco IOS Down Interface has been detected
       condition: event.payload.results.eventtype == "cisco_ios cisco_ios-ios cisco_ios-port_down"
       action:
         run_job_template:
@@ -44,3 +44,14 @@
             extra_vars:
               downinterface: "{{ event.payload.results.src_interface }}"
               device: "{{ event.payload.results.dvc }}"
+
+    - name: An Arista Down Interface has been detected
+      condition: event.payload.results.sourcetype == "arista_switch_log" and event.payload.results.facility == "LINEPROTO" and event.payload.results.msg == "UPDOWN" and event.payload.results.action == "down"
+      action:
+        run_job_template:
+          name: "Network Interface Remediation"
+          organization: Networking
+          job_args:
+            extra_vars:
+              downinterface: "{{ event.payload.results.interface }}"
+              device: "{{ event.payload.results.host }}"

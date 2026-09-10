@@ -47,6 +47,11 @@
 
     - name: An Arista Down Interface has been detected
       condition: event.payload.results.sourcetype == "arista_switch_log" and event.payload.results.facility == "LINEPROTO" and event.payload.results.msg == "UPDOWN" and event.payload.results.action == "down"
+      throttle:
+        once_within: 2 minutes
+        group_by_attributes:
+          - event.payload.results.host
+          - event.payload.results.interface
       action:
         run_job_template:
           name: "Network Interface Remediation"

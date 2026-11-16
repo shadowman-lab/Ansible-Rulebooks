@@ -20,6 +20,28 @@
               service_issue: "httpd"
               ao_webhook_path: "{{ ao_webhook_path }}"
 
+    - name: Disk Usage Warning
+      condition: event.payload.event_title == "[Warn] Disk Usage is high"
+      action:
+        run_job_template:
+          name: "EDA Automated Response Automation Orchestrator"
+          organization: Infrastructure
+          job_args:
+            extra_vars:
+              vm_name: "{{ event.payload.hostname }}"
+              ao_webhook_path: "{{ ao_webhook_path_disk }}"
+
+    - name: Disk Usage Alert
+      condition: event.payload.event_title == "[Triggered] Disk Usage is high"
+      action:
+        run_job_template:
+          name: "EDA Automated Response Automation Orchestrator"
+          organization: Infrastructure
+          job_args:
+            extra_vars:
+              vm_name: "{{ event.payload.hostname }}"
+              ao_webhook_path: "{{ ao_webhook_path_disk }}"
+
     - name: High CPU Usage Detected
       condition: event.payload.event_title == "[Triggered] CPU Load is high"
       action:

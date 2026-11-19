@@ -19,7 +19,7 @@
               image_tag: "{{ event.payload.image_tag }}"
 
     - name: RNew Application Build Completed for Lightwell Usage
-      condition: event.payload.image_tag is defined and event.payload.is_merge == false
+      condition: event.payload.image_tag is defined and event.payload.is_merge == true
       action:
         run_job_template:
           name: "EDA Automated Response Automation Orchestrator"

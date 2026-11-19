@@ -1,9 +1,9 @@
 ---
-- name: Automatic Remediation on Alerts from Red Hat Insights
+- name: Automatic Remediation on Alerts from Red Hat Lightspeed
   hosts: all
   execution_strategy: parallel
   sources:
-    - name: Listen for alerts from Red Hat Insights
+    - name: Listen for alerts from Red Hat Lightspeed
       redhat.insights_eda.insights:
         port: 5002
 
@@ -12,7 +12,7 @@
       condition: event.payload is defined and event.payload.event_type == 'detected-malware'
       action:
         run_job_template:
-          name: "EDA Automated Response Insights Malware"
+          name: "EDA Automated Response Lightspeed Malware"
           organization: Infrastructure
           job_args:
             extra_vars:

@@ -1,0 +1,19 @@
+---
+- name: Listen for events on a webhook from GitHub Actions
+  hosts: all
+  sources:
+    - name: Listen for alerts from GitHub Actions
+      eda.builtin.webhook:
+        host: 0.0.0.0
+        port: 4997
+
+  rules:
+    - name: New Application Build Completed
+      condition: event.payload.image_tag is defined
+      action:
+        run_job_template:
+          name: "Lightwell Demo App Deployment"
+          organization: "Infrastructure"
+          job_args:
+            extra_vars:
+              image_tag: "{{ event.payload.image_tag }}"
